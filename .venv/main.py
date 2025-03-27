@@ -4,10 +4,17 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+import os
 
 # Define driver,options & service
 chrome_options = Options()
 chrome_options.add_argument('--disable-search-engine-choice-screen')
+
+
+download_path = os.getcwd()
+prefs = {'download.default_directory':download_path}
+chrome_options.add_experimental_option('prefs',prefs)
+
 service = Service("/Users/misha/PycharmProjects/App15-Web-Automation-Tool-GUI/chromedriver-mac-arm64/chromedriver")
 driver = webdriver.Chrome(options=chrome_options,service=service)
 
@@ -50,6 +57,14 @@ Email.send_keys("connecttoshivi@gmail.com")
 Current_Address.send_keys("Jannat,Shiv Vihar")
 Permanent_Address.send_keys("Jannat,Shiv Vihar")
 driver.execute_script('arguments[0].click();',Submit)
+
+
+# Locate the Upload and Data tab and Download button
+
+Upload_Download = WebDriverWait(driver,10).until(EC.visibility_of_element_located((By.ID,'item-7')))
+Upload_Download.click()
+Download_button = driver.find_element(By.ID,'downloadButton')
+driver.execute_script('arguments[0].click();',Download_button)
 
 
 input(" Presss Enter to close the window")
